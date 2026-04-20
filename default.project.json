@@ -1,0 +1,9 @@
+{
+  "name": "Chance",
+  "tree": {
+    "$path": "src",
+    "Packages": {
+      "$path": "Packages"
+    }
+  }
+}
