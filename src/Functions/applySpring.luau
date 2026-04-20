@@ -1,7 +1,7 @@
 --!strict
 
-local Charm = require(script.Parent.Parent.Packages.Charm)
-local Ripple = require(script.Parent.Parent.Packages.Ripple)
+local Charm = require(script.Parent.Parent.Parent.Charm)
+local Ripple = require(script.Parent.Parent.Parent.Ripple)
 local Types = require(script.Parent.Parent.Types)
 
 local applyValue = require(script.Parent.applyValue)

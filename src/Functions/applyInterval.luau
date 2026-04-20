@@ -1,7 +1,7 @@
 --!strict
 local RunService = game:GetService("RunService")
 
-local Charm = require(script.Parent.Parent.Packages.Charm)
+local Charm = require(script.Parent.Parent.Parent.Charm)
 local Types = require(script.Parent.Parent.Types)
 
 local applyValue = require(script.Parent.applyValue)

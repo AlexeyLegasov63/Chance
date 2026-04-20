@@ -1,11 +1,19 @@
 [package]
 name = "alexeylegasov63/chance"
 description = "Library for reactive instance programming with Charm"
-version = "0.1.0"
+version = "0.10.0"
 license = "Apache-2.0"
 authors = ["alexeylegasov63"]
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
+exclude = ["**"]
+include = [
+    "src", 
+    "src/**", 
+    "CHANGELOG", 
+    "default.project.json", 
+    "wally.toml"
+]
 
 [dependencies]
 Charm = "littensy/charm@0.10.0"

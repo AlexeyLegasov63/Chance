@@ -1,5 +1,5 @@
 --!strict
-local Charm = require(script.Parent.Parent.Packages.Charm)
+local Charm = require(script.Parent.Parent.Parent.Charm)
 local Types = require(script.Parent.Parent.Types)
 
 local try = require(script.Parent.Parent.Utility.try)
