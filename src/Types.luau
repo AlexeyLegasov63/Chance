@@ -57,8 +57,10 @@ export type Cleaner = {
 
 export type Cleanup = <T>(t: T) -> T
 
-export type ExtendScope = () -> Cleanup
-
 export type Destroy = () -> ()
+
+export type Scope = (ScopeUser) -> Destroy
+
+export type ScopeUser = (cleanup: Cleanup, extend: Scope) -> ()
 
 return 0
