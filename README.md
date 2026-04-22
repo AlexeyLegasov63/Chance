@@ -211,3 +211,7 @@ end
 ## Why Chance?
 
 Chance is a bridge between reactive `Charm` and Roblox's object model. It makes working with `Instance` declarative, manages the animations and subscriptions automatically.
+
+## Thanks to:
+
+Littensy (https://github.com/littensy) for the amazing libraries: Charm and Ripple :3
