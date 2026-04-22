@@ -17,7 +17,7 @@ Chance enables:
 ### Wally
 
 ```bash
-Chance = "alexeylegasov63/chance@0.10.2"
+Chance = "alexeylegasov63/chance@latest"
 ```
 
 ## Quick start
