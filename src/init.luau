@@ -7,6 +7,7 @@ local createScope = require(functions.createScope)
 local hydrate = require(functions.hydrate)
 local fastHydrate = require(functions.fastHydrate)
 
+local setChildren = require(functions.setChildren)
 local setInterval = require(functions.setInterval)
 local setRendered = require(functions.setRendered)
 local setSpring = require(functions.setSpring)
@@ -33,6 +34,7 @@ return {
 	createScope = createScope,
 	hydrate = hydrate,
 	fastHydrate = fastHydrate,
+	setChildren = setChildren,
 	setInterval = setInterval,
 	setRendered = setRendered,
 	setSpring = setSpring,

@@ -1,6 +1,7 @@
 --!strict
 
 local Types = require(script.Parent.Parent.Types)
+local validate = require(script.Parent.Parent.Utility.validate)
 
 --[[
     Creates a declarative spring
@@ -11,6 +12,8 @@ local Types = require(script.Parent.Parent.Types)
     @return A prepared spring blueprint for hydration
 ]]
 local function setSpring<T>(callback: Types.Derived<T>, config: Types.SpringOptions<T>?): Types.PreparedSpring<T>
+	validate(type(callback) == "function", "Callback must be a function")
+
 	return {
 		__type = "spring",
 		callback = callback,

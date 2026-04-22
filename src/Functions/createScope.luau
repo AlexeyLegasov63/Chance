@@ -1,9 +1,11 @@
 --!strict
+
 local Cleaner = require(script.Parent.Parent.Classes.Cleaner)
 local Types = require(script.Parent.Parent.Types)
 
 local try = require(script.Parent.Parent.Utility.try)
 
+-- Create a scope with a cleaner
 local function createScopeWith(cleaner: Types.Cleaner, callback: Types.ScopeUser): Types.Destroy
 	-- Add an item to the scope
 	local function cleanup<T>(t: T): T
@@ -13,7 +15,7 @@ local function createScopeWith(cleaner: Types.Cleaner, callback: Types.ScopeUser
 	-- Create a subscope, that will be cleaned up with the main scope
 	local function extend(callback: Types.ScopeUser): Types.Destroy
 		local subCleaner = cleaner:extend()
-		return createScopeWith(subCleaner, callback)
+		return createScopeWith(subCleaner, callback) -- Create a new scope with the sub cleaner
 	end
 
 	-- Lend it to the callback
@@ -31,7 +33,7 @@ end
     @return A destroy function
 ]]
 local function createScope(callback: Types.ScopeUser): Types.Destroy
-	return createScopeWith(Cleaner.new(), callback)
+	return createScopeWith(Cleaner.new(), callback) -- Just create a new cleaner
 end
 
-return createScope :: Types.Scope
+return createScope

@@ -1,4 +1,5 @@
 --!strict
+
 local RunService = game:GetService("RunService")
 
 local Charm = require(script.Parent.Parent.Parent.Charm)
@@ -24,17 +25,17 @@ local function applyInterval<T>(
 		interval = prepared.interval :: number
 	end
 
-	local acumulator = 0
+	local accumulator = 0
 
 	-- Use renderstepped
-	cleanup(RunService.RenderStepped:Connect(function(dt)
-		acumulator += dt
+	cleanup(RunService.Heartbeat:Connect(function(dt)
+		accumulator += dt
 
-		if acumulator < interval then
+		if accumulator < interval then
 			return
 		end
 
-		acumulator -= interval
+		accumulator -= interval
 		applyValue(instance, parameter, prepared.callback())
 	end))
 end

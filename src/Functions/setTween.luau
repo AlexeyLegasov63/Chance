@@ -1,6 +1,7 @@
 --!strict
 
 local Types = require(script.Parent.Parent.Types)
+local validate = require(script.Parent.Parent.Utility.validate)
 
 --[[
     Creates a declarative tween
@@ -11,6 +12,8 @@ local Types = require(script.Parent.Parent.Types)
     @return A prepared tween blueprint for hydration
 ]]
 local function setTween<T>(callback: Types.Derived<T>, config: Types.TweenOptions<T>?): Types.PreparedTween<T>
+	validate(type(callback) == "function", "Callback must be a function")
+
 	return {
 		__type = "tween",
 		callback = callback,

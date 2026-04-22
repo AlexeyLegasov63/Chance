@@ -30,7 +30,14 @@ export type PreparedInterval<T> = {
 
 export type PreparedRendered<T> = {
 	__type: "rendered",
-	callback: Derived<T>,
+	callback: (deltaTime: number) -> T,
+	fps: number?,
+}
+
+export type PreparedChildren<K, V> = {
+	__type: "children",
+	children: () -> { [K]: V },
+	callback: (value: V, key: K) -> Instance,
 }
 
 ---------------------------------------

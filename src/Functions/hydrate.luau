@@ -8,6 +8,7 @@ local try = require(root.Parent.Utility.try)
 
 local applyChildren = require(root.applyChildren)
 local applyComputed = require(root.applyComputed)
+local applyComputedChildren = require(root.applyComputedChildren)
 local applyValue = require(root.applyValue)
 
 local applyInterval = require(root.applyInterval)
@@ -22,6 +23,7 @@ local isInterval = require(root.isInterval)
 local isRendered = require(root.isRendered)
 local isSpring = require(root.isSpring)
 local isTween = require(root.isTween)
+
 --[[
     Hydrates an instance with properties
     @param instance The instance to hydrate
@@ -31,8 +33,12 @@ local function hydrate(cleanup: Types.Cleanup, instance: Instance, props: Types.
 	for k: string, v: any in props do
 		try(function()
 			-- Apply children
-			if k == "_Children" or k == "_children" then
-				applyChildren(instance, v)
+			if k == "Children" or k == "children" then
+				if isComputed(v) then
+					applyComputedChildren(cleanup, instance, v) -- Children are computed
+				else
+					applyChildren(instance, v) -- Just a table
+				end
 				return
 			elseif not isParameter(instance, k) then -- Ignore parameters
 				warn(`Ignored unknown property {k} for {instance.Name}`)
