@@ -18,6 +18,7 @@ local applyTween = require(root.applyTween)
 
 local isComputed = require(root.isComputed)
 local isParameter = require(root.isParameter)
+local isChildren = require(root.isChildren)
 
 local isInterval = require(root.isInterval)
 local isRendered = require(root.isRendered)
@@ -34,7 +35,7 @@ local function hydrate(cleanup: Types.Cleanup, instance: Instance, props: Types.
 		try(function()
 			-- Apply children
 			if k == "Children" or k == "children" then
-				if isComputed(v) then
+				if isChildren(v) then
 					applyComputedChildren(cleanup, instance, v) -- Children are computed
 				else
 					applyChildren(instance, v) -- Just a table
