@@ -161,7 +161,7 @@ local destroy = Chance.createScope(function(cleanup, extend)
     local part = Instance.new("Part")
     part.Parent = workspace
 
-    cleanup(Chance.fastHydrate(part, {
+    cleanup(Chance.hydrate(cleanup, part, {
         Position = Chance.setRendered(function()
             return Vector3.new(0, math.sin(os.clock()) * 5, 0)
         end),
