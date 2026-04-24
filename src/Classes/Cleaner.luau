@@ -14,6 +14,11 @@ getmetatable(CLEANER_SYMBOL).__tostring = function()
 	return "<SubScope>"
 end
 
+local IS_CLEANED_SYMBOL = newproxy(true)
+getmetatable(IS_CLEANED_SYMBOL).__tostring = function()
+	return "<Cleaned>"
+end
+
 local function throw(message: string)
 	error(message, 3)
 end
@@ -165,6 +170,12 @@ end
     Calls Disconnect, Destroy, or Cancel as appropriate.
 ]]
 function Cleaner:cleanup()
+	-- Check if the cleaner has already been cleaned
+	if self[IS_CLEANED_SYMBOL] then
+		return
+	end
+	self[IS_CLEANED_SYMBOL] = true
+
 	local garbage = self._garbage
 
 	-- Clear the garbage list

@@ -10,6 +10,12 @@ local function applyComputedChildren<K, V>(cleanup: Types.Cleanup, parent: Insta
 
 	cleanup(Charm.observe(prepared.children, function(value: V, key: K)
 		local instance = prepared.callback(value, key)
+
+		-- Ignore nil
+		if instance == nil then
+			return
+		end
+
 		validate(
 			typeof(instance) == "Instance",
 			"Only instances are supported, please ensure that the callback returns a valid instance"
@@ -30,7 +36,11 @@ local function applyComputedChildren<K, V>(cleanup: Types.Cleanup, parent: Insta
 
 	-- And clean up when the scope is destroyed
 	cleanup(function()
-		for instance in pairs(weak) do
+		for instance in next, weak do
+			if not instance.Parent then
+				continue -- Already destroyed
+			end
+
 			local ok, err = pcall(instance.Destroy, instance)
 
 			if not ok then

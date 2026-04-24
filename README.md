@@ -1,4 +1,4 @@
-# Chance
+# Chance (Charm + Instance = Chance)
 
 Chance is a combination of `Charm` + `Instance`: a declarative approach to `Instance` properties and hierarchy in Roblox with reactivity, animation, and lifecycle management.
 
@@ -23,15 +23,24 @@ Chance = "alexeylegasov63/chance@latest"
 ## Quick start
 
 ```lua
+local Charm = require(path.to.Charm)
 local Chance = require(path.to.Chance)
 
 local part = Instance.new("Part")
 
+local nameAtom = Charm.atom("CoolName")
+
 local destroy = Chance.fastHydrate(part, {
-    Name = "AnimatedPart",
-    Position = Vector3.new(0, 5, 0),
-    Anchored = true,
+    Name = function()
+        local name = nameAtom()
+        print("Current name:", name)
+        return name
+    end,
 })
+
+task.wait(1)
+
+nameAtom("NotCoolName")
 
 -- When you need to remove all subscriptions and animations:
 destroy()
@@ -148,7 +157,7 @@ A scope ensures that all subscriptions and resources are cleaned up when it is d
 ```lua
 local Chance = require(path.to.Chance)
 
-local destroy = Chance.createScope(function(cleanup)
+local destroy = Chance.createScope(function(cleanup, extend)
     local part = Instance.new("Part")
     part.Parent = workspace
 
@@ -157,16 +166,19 @@ local destroy = Chance.createScope(function(cleanup)
             return Vector3.new(0, math.sin(os.clock()) * 5, 0)
         end),
     }))
-
-    cleanup(function()
-        part:Destroy()
-    end)
+    cleanup(part) -- Will be destroyed
 
     print("Hello world!")
 
     cleanup(function()
         print("Bye world!")
     end)
+
+    local destroySub = extend(function(cleanup2, extend2)
+        print("Sub scope!")
+    end)
+
+    -- destroySub() -- Optional, will be destroyed automatically with the root scope
 end)
 
 -- When the scope is no longer needed:
@@ -211,3 +223,7 @@ end
 ## Why Chance?
 
 Chance is a bridge between reactive `Charm` and Roblox's object model. It makes working with `Instance` declarative, manages the animations and subscriptions automatically.
+
+## Thanks to:
+
+Littensy (https://github.com/littensy) for the amazing libraries: Charm and Ripple :3

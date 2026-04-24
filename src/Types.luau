@@ -37,7 +37,7 @@ export type PreparedRendered<T> = {
 export type PreparedChildren<K, V> = {
 	__type: "children",
 	children: () -> { [K]: V },
-	callback: (value: V, key: K) -> Instance,
+	callback: (value: V, key: K) -> Instance?,
 }
 
 ---------------------------------------
