@@ -10,28 +10,40 @@ export type SpringOptions<T> = RippleTypes.SpringOptions<T>
 
 ---------------------------------------
 
+export type CommonOptions = {
+	disabled: Derived<boolean>?,
+}
+
+export type RenderedOptions = CommonOptions & {
+	fps: Derivable<number>?,
+}
+
+export type IntervalOptions = CommonOptions & {
+	interval: Derivable<number>,
+}
+
 export type PreparedSpring<T> = {
 	__type: "spring",
 	callback: Derived<T>,
-	config: RippleTypes.SpringOptions?,
+	config: SpringOptions<T>?,
 }
 
 export type PreparedTween<T> = {
 	__type: "tween",
 	callback: Derived<T>,
-	config: RippleTypes.TweenOptions?,
+	config: TweenOptions<T>?,
 }
 
 export type PreparedInterval<T> = {
 	__type: "interval",
 	callback: Derived<T>,
-	interval: Derivable<number>,
+	config: IntervalOptions,
 }
 
 export type PreparedRendered<T> = {
 	__type: "rendered",
-	callback: (deltaTime: number) -> T,
-	fps: number?,
+	callback: (deltaTime: number, steps: number) -> T,
+	config: RenderedOptions,
 }
 
 export type PreparedChildren<K, V> = {

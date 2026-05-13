@@ -14,15 +14,16 @@ local function applyInterval<T>(
 	parameter: string,
 	prepared: Types.PreparedInterval<T>
 )
-	local interval: number
+	local config = prepared.config
 
+	local interval: number
 	-- Resolve interval
-	if isComputed(prepared.interval) then
+	if isComputed(config.interval) then
 		cleanup(Charm.effect(function()
-			interval = (prepared.interval :: Types.Derived<number>)()
+			interval = (config.interval :: Types.Derived<number>)()
 		end))
 	else
-		interval = prepared.interval :: number
+		interval = config.interval :: number
 	end
 
 	local accumulator = 0
