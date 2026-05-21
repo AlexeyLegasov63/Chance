@@ -99,9 +99,7 @@ local data = Charm.atom({
 local root = Instance.new("Folder")
 
 local destroy = Chance.fastHydrate(root, {
-    Children = Chance.setChildren(function()
-        return items
-    end, function(data)
+    Children = Chance.setChildren(items, function(data)
         local part = Instance.new("Part")
         part.Name = data.Name
         part.Position = data.Position
@@ -161,11 +159,11 @@ local destroy = Chance.createScope(function(cleanup, extend)
     local part = Instance.new("Part")
     part.Parent = workspace
 
-    cleanup(Chance.hydrate(cleanup, part, {
+    Chance.hydrate(cleanup, part, {
         Position = Chance.setRendered(function()
             return Vector3.new(0, math.sin(os.clock()) * 5, 0)
         end),
-    }))
+    })
     cleanup(part) -- Will be destroyed
 
     print("Hello world!")
