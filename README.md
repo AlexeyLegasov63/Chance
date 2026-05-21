@@ -91,7 +91,7 @@ Use `setChildren` to manage a list of child instances.
 ```lua
 local Chance = require(path.to.Chance)
 
-local data = Charm.atom({
+local items = Charm.atom({
     { Name = "A", Position = Vector3.new(0, 5, 0) },
     { Name = "B", Position = Vector3.new(2, 5, 0) },
 })
