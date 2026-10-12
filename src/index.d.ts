@@ -99,14 +99,14 @@ export type ScopeUser = (cleanup: Cleanup, extend: Scope) => void;
  * Represents the default properties of an instance
  * @template I The type of the instance
  */
-export type DefaultProperties<I extends Instance> = {
+export type DefaultProperties<I extends Instance> = Partial<{
   [K in keyof I]:
     | Derivable<I[K]>
     | PreparedInterval<I[K]>
     | PreparedRendered<I[K]>
     | PreparedSpring<I[K] | any>
     | PreparedTween<I[K] | any>;
-};
+}>;
 
 /**
  * Represents the properties of an instance that can be hydrated
@@ -162,7 +162,7 @@ export function setChildren<K, V>(
  * @returns A prepared interval blueprint
  */
 export function setInterval<T>(
-  callback: Derived<T>,
+  callback: (steps: number) => T,
   config: IntervalOptions,
 ): PreparedInterval<T>;
 
@@ -195,7 +195,7 @@ export function setTween<T extends Animatable = any>(
  * @returns A prepared render hook blueprint
  */
 export function setRendered<T>(
-  callback: (dt: number, st: number) => T,
+  callback: (dt: number, st: number, acc: number) => T,
   config?: RenderedOptions,
 ): PreparedRendered<T>;
 
