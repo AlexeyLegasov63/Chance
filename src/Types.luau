@@ -36,13 +36,13 @@ export type PreparedTween<T> = {
 
 export type PreparedInterval<T> = {
 	__type: "interval",
-	callback: Derived<T>,
+	callback: (steps: number) -> T,
 	config: IntervalOptions,
 }
 
 export type PreparedRendered<T> = {
 	__type: "rendered",
-	callback: (deltaTime: number, steps: number) -> T,
+	callback: (delta: number, accumulated: number, steps: number) -> T,
 	config: RenderedOptions,
 }
 

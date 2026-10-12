@@ -10,7 +10,7 @@ local validate = require(script.Parent.Parent.Utility.validate)
     @return A prepared render hook blueprint for hydration
 ]]
 local function setRendered<T>(
-	callback: (dt: number, st: number) -> T,
+	callback: (delta: number, accumulated: number, steps: number) -> T,
 	config: Types.RenderedOptions?
 ): Types.PreparedRendered<T>
 	validate(type(callback) == "function", "Callback must be a function")

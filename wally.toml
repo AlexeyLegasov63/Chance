@@ -1,12 +1,16 @@
 [package]
 name = "alexeylegasov63/chance"
 description = "Library for reactive instance programming with Charm"
-version = "0.10.4"
-license = "Apache-2.0"
+version = "0.11.1"
+license = "MIT"
 authors = ["alexeylegasov63"]
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
-exclude = ["**"]
+exclude = [
+    "**",
+	"Charm.luau",
+    "Ripple.luau"
+]
 include = [
     "src", 
     "src/**", 

@@ -1,0 +1,43 @@
+{
+  "name": "@rbxts/chance",
+  "version": "0.11.1",
+  "description": "Library for reactive instance programming with Charm",
+  "main": "src/init.lua",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "build": "rbxtsc",
+    "watch": "rbxtsc -w",
+    "prepublishOnly": "npm run build"
+  },
+  "license": "MIT",
+  "type": "commonjs",
+  "files": [
+    "src",
+    "*.luau",
+    "!wally.toml",
+    "!wally.lock",
+    "!default.project.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@rbxts/compiler-types": "3.0.0-types.0",
+    "@rbxts/types": "^1.0.913",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-roblox-ts": "^1.4.0",
+    "prettier": "^3.8.1",
+    "roblox-ts": "^3.0.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.58.0"
+  },
+  "dependencies": {
+    "@rbxts/charm": "^0.11.1",
+    "@rbxts/ripple": "^0.10.2"
+  }
+}

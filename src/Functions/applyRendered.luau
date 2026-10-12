@@ -30,12 +30,14 @@ local function applyRendered<T>(
 
 	local last = nil
 	local accumulator = 0 -- FPS accumulator
+	local permaAccumulator = 0
 
 	local steps = 0
 
 	-- Compute every frame
 	cleanup(RunService.RenderStepped:Connect(function(dt)
 		accumulator += dt
+		permaAccumulator += dt
 
 		-- Skip frames
 		if accumulator < frameTime then
@@ -47,7 +49,7 @@ local function applyRendered<T>(
 		-- Reset accumulator
 		accumulator -= frameTime
 
-		local new = prepared.callback(dt, steps)
+		local new = prepared.callback(dt, steps, permaAccumulator)
 
 		if new == last then
 			return

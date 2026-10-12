@@ -9,14 +9,14 @@ local validate = require(script.Parent.Parent.Utility.validate)
     @param callback - A derived function to be executed on each tick
     @return A prepared interval blueprint for hydration
 ]]
-local function setInterval<T>(callback: Types.Derived<T>, config: Types.IntervalOptions): Types.PreparedInterval<T>
+local function setInterval<T>(callback: (steps: number) -> T, config: Types.IntervalOptions): Types.PreparedInterval<T>
 	validate(type(callback) == "function", "Callback must be a function")
-    validate(config ~= nil and config.interval ~= nil, "Interval must be specified in the options")
+	validate(config ~= nil and config.interval ~= nil, "Interval must be specified in the options")
 
 	return {
 		__type = "interval",
 		callback = callback,
-		config = config
+		config = config,
 	}
 end
 
