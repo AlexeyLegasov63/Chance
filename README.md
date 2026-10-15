@@ -206,11 +206,6 @@ end)
 destroy()
 ```
 
-`createScope` passes two functions to the callback:
-
-- `cleanup(item)` — register a resource for automatic cleanup
-- `extend(callback)` — create a nested scope within the current one
-
 ## Usage examples
 
 ### Simple reactive `Part`
