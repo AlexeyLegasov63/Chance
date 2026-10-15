@@ -1,39 +1,34 @@
 --!strict
 
-local Cleaner = require(script.Parent.Parent.Classes.Cleaner)
-local Types = require(script.Parent.Parent.Types)
+local Types = require("../Types")
+local Graph = require("../Graph")
 
-local try = require(script.Parent.Parent.Utility.try)
+local try = require("../Utility/try")
+local validate = require("../Utility/validate")
 
--- Create a scope with a cleaner
-local function createScopeWith(cleaner: Types.Cleaner, callback: Types.ScopeUser): Types.Destroy
-	-- Add an item to the scope
-	local function cleanup<T>(t: T): T
-		return cleaner:add(t)
-	end
-
-	-- Create a subscope, that will be cleaned up with the main scope
-	local function extend(callback: Types.ScopeUser): Types.Destroy
-		local subCleaner = cleaner:extend()
-		return createScopeWith(subCleaner, callback) -- Create a new scope with the sub cleaner
-	end
-
-	-- Lend it to the callback
-	try(callback, "Failed to create scope", cleanup, extend)
-
-	-- Return the cleanup function
-	return function()
-		cleaner:cleanup()
-	end
-end
+local refs = {} -- Keep strong references
 
 --[[
     Create a scope that will be cleaned up when destroyed
     @param callback The callback function that will receive the cleanup and extend functions
     @return A destroy function
 ]]
-local function createScope(callback: Types.ScopeUser): Types.Destroy
-	return createScopeWith(Cleaner.new(), callback) -- Just create a new cleaner
+local function createScope(callback: (destroy: () -> ()) -> ()): Types.Destroy
+	local node = Graph.createNode()
+
+	refs[node] = true
+
+	local destroy = function()
+		validate(refs[node] ~= nil, "Scope is already destroyed")
+		refs[node] = nil
+		Graph.destroyNode(node)
+	end
+
+	Graph.pushScope(node)
+	try(callback, "Failed to create scope", destroy)
+	Graph.popScope()
+
+	return destroy
 end
 
 return createScope

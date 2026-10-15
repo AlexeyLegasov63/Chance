@@ -2,24 +2,20 @@
 
 local RunService = game:GetService("RunService")
 
-local Charm = require(script.Parent.Parent.Parent.Charm)
-local Types = require(script.Parent.Parent.Types)
+local Charm = require("../../Charm")
 
-local applyValue = require(script.Parent.applyValue)
-local isComputed = require(script.Parent.isComputed)
+local Types = require("../Types")
+
+local applyValue = require("./applyValue")
+local cleanup = require("./cleanup")
 
 local DEFAULT_FPS = 60
 
-local function applyRendered<T>(
-	cleanup: Types.Cleanup,
-	instance: Instance,
-	parameter: string,
-	prepared: Types.PreparedRendered<T>
-)
+local function applyRendered<T>(instance: Instance, property: Types.PossibleProperty, prepared: Types.PreparedRendered<T>)
 	local config = prepared.config
 
 	local frameTime: number
-	if config.fps and isComputed(config.fps) then
+	if config.fps and type(config.fps) == "function" then
 		local selector = config.fps :: Types.Derived<number>
 		cleanup(Charm.effect(function()
 			frameTime = 1 / selector()
@@ -57,7 +53,7 @@ local function applyRendered<T>(
 
 		last = new
 
-		applyValue(instance, parameter, new)
+		applyValue(instance, property, new)
 	end))
 end
 

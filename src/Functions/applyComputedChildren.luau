@@ -1,11 +1,14 @@
 --!strict
 
-local Charm = require(script.Parent.Parent.Parent.Charm)
-local Types = require(script.Parent.Parent.Types)
-local validate = require(script.Parent.Parent.Utility.validate)
+local Charm = require("../../Charm")
+local Types = require("../Types")
+
+local validate = require("../Utility/validate")
+
+local cleanup = require("./cleanup")
 
 -- Observes children and applies them to an instance, destroying them when they change
-local function applyComputedChildren<K, V>(cleanup: Types.Cleanup, parent: Instance, prepared: Types.PreparedChildren<K, V>)
+local function applyComputedChildren<K, V>(parent: Instance, prepared: Types.PreparedChildren<K, V>)
 	local weak = setmetatable({}, { __mode = "k" }) :: { [Instance]: boolean }
 
 	cleanup(Charm.observe(prepared.children, function(value: V, key: K)

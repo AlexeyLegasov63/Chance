@@ -1,9 +1,9 @@
 --!strict
 
-local Types = require(script.Parent.Parent.Types)
+local Types = require("../Types")
 
-local createScope = require(script.Parent.createScope)
-local hydrate = require(script.Parent.hydrate)
+local createScope = require("./createScope")
+local hydrate = require("./hydrate")
 
 --[[
     Hydrates an instance with properties without manually creating a scope
@@ -12,9 +12,9 @@ local hydrate = require(script.Parent.hydrate)
     @param props The properties to hydrate
     @return A destroy function
 ]]
-local function fastHydrate(instance: Instance, props: Types.Attributes): Types.Destroy
-	return createScope(function(cleanup)
-		hydrate(cleanup, instance, props)
+local function fastHydrate(instance: Instance, props: any): Types.Destroy
+	return createScope(function()
+		hydrate(instance, props)
 	end)
 end
 

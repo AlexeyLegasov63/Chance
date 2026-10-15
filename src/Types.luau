@@ -22,6 +22,10 @@ export type IntervalOptions = CommonOptions & {
 	interval: Derivable<number>,
 }
 
+export type Prepared = {
+	__type: string,
+}
+
 export type PreparedSpring<T> = {
 	__type: "spring",
 	callback: Derived<T>,
@@ -42,7 +46,7 @@ export type PreparedInterval<T> = {
 
 export type PreparedRendered<T> = {
 	__type: "rendered",
-	callback: (delta: number, accumulated: number, steps: number) -> T,
+	callback: (delta: number, steps: number, accumulated: number) -> T,
 	config: RenderedOptions,
 }
 
@@ -60,9 +64,11 @@ export type Derivable<T> = T | Derived<T>
 
 ---------------------------------------
 
-export type Attributes = {
-	[any]: any,
+export type InstanceAttribute = {
+	__attribute: string,
 }
+
+export type PossibleProperty = InstanceAttribute | string
 
 ---------------------------------------
 
@@ -74,12 +80,23 @@ export type Cleaner = {
 
 ---------------------------------------
 
-export type Cleanup = <T>(t: T) -> T
+--[[
+    Possible cleanup task
+]]
+export type CleanupTask = {
+	destroy: (() -> ())?,
+	Destroy: (() -> ())?,
+	cancel: (() -> ())?,
+	Cancel: (() -> ())?,
+	cleanup: (() -> ())?,
+	Cleanup: (() -> ())?,
+	disconnect: (() -> ())?,
+	Disconnect: (() -> ())?,
+} | Instance | RBXScriptConnection | thread | () -> ()
 
+--[[
+    Cleanup function
+]]
 export type Destroy = () -> ()
-
-export type Scope = (ScopeUser) -> Destroy
-
-export type ScopeUser = (cleanup: Cleanup, extend: Scope) -> ()
 
 return 0

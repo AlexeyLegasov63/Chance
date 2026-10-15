@@ -20,6 +20,12 @@ Chance enables:
 Chance = "alexeylegasov63/chance@latest"
 ```
 
+### Roblox-TS
+
+```bash
+npm install @rbxts/chance
+```
+
 ## Quick start
 
 ```lua
@@ -48,9 +54,12 @@ destroy()
 
 ## Main exports
 
-- `Chance.createScope(callback)` — create a scope where cleanup can be registered
-- `Chance.fastHydrate(instance, props)` — hydrate an instance and return a destroy function
-- `Chance.hydrate(cleanup, instance, props)` — apply properties to an instance within an existing scope
+- `Chance.createScope(callback)` — create a scope
+- `Chance.subScope(callback)` — create a sub scope
+- `Chance.attribute(string)` — create an attribute key
+- `Chance.cleanup(any)` — add a cleanup task to the current scope
+- `Chance.fastHydrate(instance, props)` — hydrate an instance without creating a scope and return a destroy function
+- `Chance.hydrate(instance, props)` — apply properties to an instance within an existing scope
 - `Chance.setChildren(selector, constructor)` — declare a list of child `Instance`s
 - `Chance.setSpring(callback, config?)` — bind a property to a spring animation
 - `Chance.setTween(callback, config?)` — bind a property to a tween animation
@@ -77,6 +86,8 @@ local props = {
         local isBig = big()
         return Vector3.one * (isBig and 30 or 3)
     end,
+
+    [Chance.attribute("SomeAttribute")] = color -- Computed
 }
 ```
 
@@ -155,15 +166,23 @@ A scope ensures that all subscriptions and resources are cleaned up when it is d
 ```lua
 local Chance = require(path.to.Chance)
 
-local destroy = Chance.createScope(function(cleanup, extend)
+local cleanup = Chance.cleanup
+local hydrate = Chance.hydrate
+local setRendered = Chance.setRendered
+
+local createScope = Chance.createScope
+local subScope = Chance.subScope
+
+local destroy = createScope(function()
     local part = Instance.new("Part")
     part.Parent = workspace
 
-    Chance.hydrate(cleanup, part, {
+    hydrate(part, {
         Position = Chance.setRendered(function()
             return Vector3.new(0, math.sin(os.clock()) * 5, 0)
         end),
     })
+
     cleanup(part) -- Will be destroyed
 
     print("Hello world!")
@@ -172,8 +191,12 @@ local destroy = Chance.createScope(function(cleanup, extend)
         print("Bye world!")
     end)
 
-    local destroySub = extend(function(cleanup2, extend2)
+    local destroySub = subScope(function()
         print("Sub scope!")
+
+        cleanup(function()
+            print("Bye sub scope!")
+        end)
     end)
 
     -- destroySub() -- Optional, will be destroyed automatically with the root scope
@@ -222,6 +245,8 @@ end
 
 Chance is a bridge between reactive `Charm` and Roblox's object model. It makes working with `Instance` declarative, manages the animations and subscriptions automatically.
 
-## Thanks to:
+## Thanks to
 
 Littensy (https://github.com/littensy) for the amazing libraries: Charm and Ripple :3
+
+Inspired by Vide (https://github.com/centau/vide)

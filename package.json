@@ -1,13 +1,17 @@
 {
   "name": "@rbxts/chance",
-  "version": "0.11.1",
+  "version": "0.2.1",
   "description": "Library for reactive instance programming with Charm",
   "main": "src/init.lua",
   "types": "src/index.d.ts",
+  "author": "alexkarma424",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlexeyLegasov63/Chance.git"
+  },
   "scripts": {
     "build": "rbxtsc",
-    "watch": "rbxtsc -w",
-    "prepublishOnly": "npm run build"
+    "watch": "rbxtsc -w"
   },
   "license": "MIT",
   "type": "commonjs",

@@ -1,7 +1,7 @@
 --!strict
 
-local Types = require(script.Parent.Parent.Types)
-local validate = require(script.Parent.Parent.Utility.validate)
+local Types = require("../Types")
+local validate = require("../Utility/validate")
 
 --[[
     Creates a declarative, reactive render hook
@@ -10,7 +10,7 @@ local validate = require(script.Parent.Parent.Utility.validate)
     @return A prepared render hook blueprint for hydration
 ]]
 local function setRendered<T>(
-	callback: (delta: number, accumulated: number, steps: number) -> T,
+	callback: (delta: number, steps: number, accumulated: number) -> T,
 	config: Types.RenderedOptions?
 ): Types.PreparedRendered<T>
 	validate(type(callback) == "function", "Callback must be a function")

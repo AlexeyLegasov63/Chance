@@ -1,27 +1,24 @@
 --!strict
 
-local Charm = require(script.Parent.Parent.Parent.Charm)
-local Ripple = require(script.Parent.Parent.Parent.Ripple)
-local Types = require(script.Parent.Parent.Types)
+local Charm = require("../../Charm")
+local Ripple = require("../../Ripple")
 
-local applyValue = require(script.Parent.applyValue)
+local Types = require("../Types")
 
-local function applySpring<T>(
-	cleanup: Types.Cleanup,
-	instance: Instance,
-	parameter: string,
-	prepared: Types.PreparedSpring<T>
-)
+local applyValue = require("./applyValue")
+local cleanup = require("./cleanup")
+
+local function applySpring<T>(instance: Instance, property: Types.PossibleProperty, prepared: Types.PreparedSpring<T>)
 	-- Compute initial value
 	local initial = prepared.callback()
 	local spring = Ripple.createSpring(initial, prepared.config)
 
 	-- Apply starting value
-	applyValue(instance, parameter, initial)
+	applyValue(instance, property, initial)
 
 	-- Start spring
 	spring:onChange(function(value: T)
-		applyValue(instance, parameter, value)
+		applyValue(instance, property, value)
 	end)
 	spring:start()
 
@@ -35,7 +32,7 @@ local function applySpring<T>(
 
 	-- Return initial value
 	cleanup(function()
-		applyValue(instance, parameter, initial)
+		applyValue(instance, property, initial)
 	end)
 end
 

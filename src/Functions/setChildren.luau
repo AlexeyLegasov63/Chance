@@ -1,7 +1,7 @@
 --!strict
 
-local Types = require(script.Parent.Parent.Types)
-local validate = require(script.Parent.Parent.Utility.validate)
+local Types = require("../Types")
+local validate = require("../Utility/validate")
 
 --[[
     Observes children and applies them to an instance, destroying them automatically

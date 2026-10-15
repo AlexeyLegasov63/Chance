@@ -2,23 +2,19 @@
 
 local RunService = game:GetService("RunService")
 
-local Charm = require(script.Parent.Parent.Parent.Charm)
-local Types = require(script.Parent.Parent.Types)
+local Charm = require("../../Charm")
 
-local applyValue = require(script.Parent.applyValue)
-local isComputed = require(script.Parent.isComputed)
+local Types = require("../Types")
 
-local function applyInterval<T>(
-	cleanup: Types.Cleanup,
-	instance: Instance,
-	parameter: string,
-	prepared: Types.PreparedInterval<T>
-)
+local applyValue = require("./applyValue")
+local cleanup = require("./cleanup")
+
+local function applyInterval<T>(instance: Instance, property: Types.PossibleProperty, prepared: Types.PreparedInterval<T>)
 	local config = prepared.config
 
 	local interval: number
 	-- Resolve interval
-	if isComputed(config.interval) then
+	if type(config.interval) == "function" then
 		cleanup(Charm.effect(function()
 			interval = (config.interval :: Types.Derived<number>)()
 		end))
@@ -27,6 +23,7 @@ local function applyInterval<T>(
 	end
 
 	local accumulator = 0
+	local steps = 0
 
 	-- Use renderstepped
 	cleanup(RunService.Heartbeat:Connect(function(dt)
@@ -36,8 +33,10 @@ local function applyInterval<T>(
 			return
 		end
 
+		steps += 1
+
 		accumulator -= interval
-		applyValue(instance, parameter, prepared.callback())
+		applyValue(instance, property, prepared.callback(steps))
 	end))
 end
 

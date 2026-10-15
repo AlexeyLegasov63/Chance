@@ -1,20 +1,18 @@
 --!strict
 
-local Types = require(script.Parent.Parent.Types)
-
-local isComputed = require(script.Parent.isComputed)
+local Types = require("../Types")
 
 --[[
     Derives a value, whether it's a function or just a value
-    @param deriveable The value to derive
+    @param derivable The value to derive
     @return The derived value
 ]]
-local function derive<T>(deriveable: Types.Derivable<T>?): T?
-	if not deriveable then
+local function derive<T>(derivable: Types.Derivable<T>?): T?
+	if not derivable then
 		return nil
 	end
-	local value = deriveable
-	if isComputed(value) then
+	local value = derivable
+	if type(value) == "function" then
 		value = (value :: Types.Derived<T>)()
 	end
 	return value

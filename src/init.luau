@@ -1,19 +1,21 @@
-local Types = require(script.Types)
+local Types = require("@self/Types")
 
-local functions = script.Functions
+local attribute = require("@self/Functions/attribute")
 
-local createScope = require(functions.createScope)
+local createScope = require("@self/Functions/createScope")
+local subScope = require("@self/Functions/subScope")
+local cleanup = require("@self/Functions/cleanup")
 
-local hydrate = require(functions.hydrate)
-local fastHydrate = require(functions.fastHydrate)
+local hydrate = require("@self/Functions/hydrate")
+local fastHydrate = require("@self/Functions/fastHydrate")
 
-local setChildren = require(functions.setChildren)
-local setInterval = require(functions.setInterval)
-local setRendered = require(functions.setRendered)
-local setSpring = require(functions.setSpring)
-local setTween = require(functions.setTween)
+local setChildren = require("@self/Functions/setChildren")
+local setInterval = require("@self/Functions/setInterval")
+local setRendered = require("@self/Functions/setRendered")
+local setSpring = require("@self/Functions/setSpring")
+local setTween = require("@self/Functions/setTween")
 
-local derive = require(functions.derive)
+local derive = require("@self/Functions/derive")
 
 export type Derivable<T> = Types.Derivable<T>
 export type Derived<T> = Types.Derived<T>
@@ -23,15 +25,14 @@ export type TweenOptions<T> = Types.TweenOptions<T>
 
 export type Easing = Types.Easing
 
-export type Attributes = Types.Attributes
-
-export type Cleanup = Types.Cleanup
-export type Scope = Types.Scope
-export type ScopeUser = Types.ScopeUser
+export type CleanupTask = Types.CleanupTask
 export type Destroy = Types.Destroy
 
 return {
+	attribute = attribute,
 	createScope = createScope,
+	subScope = subScope,
+	cleanup = cleanup,
 	hydrate = hydrate,
 	fastHydrate = fastHydrate,
 	setChildren = setChildren,
